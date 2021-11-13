@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+version = '1.0.0'
+group = 'gg.shield.bot'
+
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
+
+repositories {
+    mavenCentral()
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
+    maven { url 'https://www.jitpack.io' }
+}
+
+repositories {
+    // why isnt implementation working???
+    implementation group: 'net.dv8tion', name: 'JDA', version: project.jda_version
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: project.logback_version
+    implementation group: 'org.reflections', name: 'reflections', version: project.reflections_version
+    implementation group: 'com.typesafe', name: 'config', version: project.config_version
+    implementation group: 'org.codehaus.groovy', name: 'groovy-jsr223', version: project.eval_version
+}
+
+compileJava {
+    options.encoding = "UTF-8"
+}
+
+jar {
+    manifest {
+        attributes([
+                'Main-Class': 'gg.shield.bot.Shield'
+        ])
+    }
+}
+
+jar.dependsOn(shadowJar)
